@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Elm Chat</title>
+	<link rel="stylesheet" href="main.css">
+	<script src="elm.js"></script>
+</head>
+
+<body>
+	<div id="chat1"></div>
+	<div id="chat2"></div>
+	<script>
+		var app1 = Elm.Main.init({
+			node: document.getElementById("chat1"),
+			flags: "user1"
+		});
+		var app2 = Elm.Main.init({
+			node: document.getElementById("chat2"),
+			flags: "user2"
+		});
+		app1.ports.dispatchMessage.subscribe(function (data) {
+			app2.ports.receiveMessage.send(data)
+		});
+		app2.ports.dispatchMessage.subscribe(function (data) {
+			app1.ports.receiveMessage.send(data)
+		});
+	</script>
+
+</body>
+
+</html>
